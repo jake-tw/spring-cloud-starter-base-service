@@ -1,7 +1,7 @@
 package com.jake.webstore.api.controller;
 
 import com.jake.webstore.api.dto.User;
-import com.jake.webstore.utils.dto.CommonResponse;
+import com.jake.webstore.utils.dto.CommonResult;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.*;
 public interface UserController {
 
     @GetMapping()
-    CommonResponse<User> listUser();
+    CommonResult<User> listUser();
 
     @GetMapping("/{id}")
-    CommonResponse<User> getUser(@PathVariable("id") int id);
+    CommonResult<User> getUser(@PathVariable("id") int id);
 
     @PutMapping("/{id}")
-    CommonResponse<User> updateUser(@PathVariable("id") int id, @RequestBody() User user);
+    CommonResult<User> updateUser(@PathVariable("id") int id, @RequestBody() User user);
 
     @PostMapping()
-    CommonResponse<User> createUser(@RequestBody() User user);
+    CommonResult<User> createUser(@RequestBody() User user);
 
     @DeleteMapping("/{id}")
-    CommonResponse<User> deleteUser(@PathVariable("id") int id);
+    CommonResult<User> deleteUser(@PathVariable("id") int id);
 }

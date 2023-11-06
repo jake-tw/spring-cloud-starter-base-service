@@ -7,4 +7,4 @@ include("webstore-service")
 include("webstore-service:webstore-user")
 
 include("webstore-common")
-include("webstore-common:webstore-utils")
+include("webstore-common:webstore-api-utils")

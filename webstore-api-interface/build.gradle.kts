@@ -27,7 +27,7 @@ subprojects {
     apply(plugin = "io.spring.dependency-management")
 
     dependencies {
-        api(project(":webstore-common:webstore-utils"))
+        api(project(":webstore-common:webstore-api-utils"))
         implementation("org.springframework.boot:spring-boot-starter-web")
     }
 }
