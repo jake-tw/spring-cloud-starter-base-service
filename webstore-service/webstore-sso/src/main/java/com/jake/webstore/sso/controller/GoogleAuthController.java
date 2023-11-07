@@ -2,8 +2,8 @@ package com.jake.webstore.sso.controller;
 
 import com.jake.webstore.common.api.dto.CommonResult;
 import com.jake.webstore.sso.api.controller.AuthController;
-import com.jake.webstore.sso.api.dto.LoginReq;
-import com.jake.webstore.sso.api.dto.LoginRes;
+import com.jake.webstore.sso.api.dto.LoginDto;
+import com.jake.webstore.sso.api.dto.TokenDto;
 import com.jake.webstore.sso.service.AuthService;
 import com.jake.webstore.sso.service.SsoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class GoogleAuthController implements AuthController {
 
     @PostMapping()
     @Override
-    public CommonResult<LoginRes> auth(LoginReq req) {
+    public CommonResult<TokenDto> auth(LoginDto dto) {
         return null;
     }
 }

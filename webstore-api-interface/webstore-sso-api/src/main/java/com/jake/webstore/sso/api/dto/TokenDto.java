@@ -5,7 +5,7 @@ import com.jake.webstore.common.api.dto.BaseDto;
 import lombok.Data;
 
 @Data
-public class LoginRes implements BaseDto {
+public class TokenDto implements BaseDto {
     private int id;
     private Token token;
     private Token refreshToken;
