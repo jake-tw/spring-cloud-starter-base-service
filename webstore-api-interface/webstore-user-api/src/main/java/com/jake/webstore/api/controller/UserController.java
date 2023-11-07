@@ -1,7 +1,7 @@
 package com.jake.webstore.api.controller;
 
 import com.jake.webstore.api.dto.*;
-import com.jake.webstore.common.api.utils.dto.CommonResult;
+import com.jake.webstore.common.api.dto.CommonResult;
 import org.springframework.web.bind.annotation.*;
 
 

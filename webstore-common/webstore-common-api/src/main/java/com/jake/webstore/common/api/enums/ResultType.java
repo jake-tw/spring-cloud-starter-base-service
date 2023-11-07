@@ -1,4 +1,4 @@
-package com.jake.webstore.common.api.utils.enums;
+package com.jake.webstore.common.api.enums;
 
 
 import lombok.Getter;

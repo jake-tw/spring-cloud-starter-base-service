@@ -1,7 +1,7 @@
 package com.jake.webstore.api.dto;
 
-import com.jake.webstore.common.api.utils.domain.User;
-import com.jake.webstore.common.api.utils.dto.BaseDto;
+import com.jake.webstore.common.api.domain.User;
+import com.jake.webstore.common.api.dto.BaseDto;
 import lombok.Data;
 
 import java.util.List;

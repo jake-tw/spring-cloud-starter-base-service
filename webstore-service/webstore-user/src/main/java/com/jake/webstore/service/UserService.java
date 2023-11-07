@@ -1,7 +1,7 @@
 package com.jake.webstore.service;
 
-import com.jake.webstore.common.api.utils.domain.Token;
-import com.jake.webstore.common.api.utils.domain.User;
+import com.jake.webstore.common.api.domain.Token;
+import com.jake.webstore.common.api.domain.User;
 
 import java.util.List;
 

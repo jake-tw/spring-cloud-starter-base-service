@@ -2,10 +2,10 @@ package com.jake.webstore.controller;
 
 import com.jake.webstore.api.controller.UserController;
 import com.jake.webstore.api.dto.*;
-import com.jake.webstore.common.api.utils.domain.Token;
-import com.jake.webstore.common.api.utils.domain.User;
+import com.jake.webstore.common.api.domain.Token;
+import com.jake.webstore.common.api.domain.User;
 import com.jake.webstore.service.UserService;
-import com.jake.webstore.common.api.utils.dto.CommonResult;
+import com.jake.webstore.common.api.dto.CommonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 

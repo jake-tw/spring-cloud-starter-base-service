@@ -1,6 +1,6 @@
-package com.jake.webstore.common.api.utils.domain;
+package com.jake.webstore.common.api.domain;
 
-import com.jake.webstore.common.api.utils.enums.TokenType;
+import com.jake.webstore.common.api.enums.TokenType;
 import lombok.Data;
 
 @Data

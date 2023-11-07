@@ -1,4 +1,4 @@
-package com.jake.webstore.common.api.utils.dto;
+package com.jake.webstore.common.api.dto;
 
 import lombok.Data;
 

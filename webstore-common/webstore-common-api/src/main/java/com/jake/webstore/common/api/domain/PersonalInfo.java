@@ -1,4 +1,4 @@
-package com.jake.webstore.common.api.utils.domain;
+package com.jake.webstore.common.api.domain;
 
 import lombok.Data;
 
