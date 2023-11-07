@@ -1,6 +1,3 @@
-import org.springframework.boot.gradle.plugin.ResolveMainClassName
-import org.springframework.boot.gradle.tasks.bundling.BootJar
-
 plugins {
     id("java-library")
     id("org.springframework.boot") version "3.1.5"
@@ -9,16 +6,8 @@ plugins {
 
 version = "1.0-SNAPSHOT"
 
-tasks {
-    named<BootJar>("bootJar") {
-        enabled = false
-    }
-    named<ResolveMainClassName>("resolveMainClassName") {
-        enabled = false
-    }
-    named<Jar>("jar") {
-        enabled = false
-    }
+project.getAllTasks(false).forEach {
+    it.value.forEach { task -> task.enabled = false }
 }
 
 subprojects {

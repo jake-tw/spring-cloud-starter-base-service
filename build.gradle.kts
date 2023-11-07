@@ -4,8 +4,8 @@ plugins {
 
 version = "1.0-SNAPSHOT"
 
-tasks.named<Jar>("jar") {
-    enabled = false
+project.getAllTasks(false).forEach {
+    it.value.forEach { task -> task.enabled = false }
 }
 
 allprojects {
