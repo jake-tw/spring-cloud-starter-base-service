@@ -1,25 +1,31 @@
 package com.jake.webstore.api.controller;
 
-import com.jake.webstore.api.dto.User;
-import com.jake.webstore.utils.dto.CommonResult;
+import com.jake.webstore.api.dto.*;
+import com.jake.webstore.common.api.utils.dto.CommonResult;
 import org.springframework.web.bind.annotation.*;
 
 
 @RequestMapping("/user")
 public interface UserController {
 
+    @PostMapping("/login")
+    CommonResult<LoginRes> login(@RequestBody() LoginReq req);
+
+    @GetMapping("/salt/{username}")
+    CommonResult<SaltDto> getSalt(@PathVariable("username") String username);
+
     @GetMapping()
-    CommonResult<User> listUser();
+    CommonResult<UserListDto> listUser();
 
     @GetMapping("/{id}")
-    CommonResult<User> getUser(@PathVariable("id") int id);
+    CommonResult<UserDto> getUser(@PathVariable("id") int id);
 
     @PutMapping("/{id}")
-    CommonResult<User> updateUser(@PathVariable("id") int id, @RequestBody() User user);
+    CommonResult<UserDto> updateUser(@PathVariable("id") int id, @RequestBody() UserDto dto);
 
     @PostMapping()
-    CommonResult<User> createUser(@RequestBody() User user);
+    CommonResult<UserDto> createUser(@RequestBody() UserDto dto);
 
     @DeleteMapping("/{id}")
-    CommonResult<User> deleteUser(@PathVariable("id") int id);
+    CommonResult<UserDto> deleteUser(@PathVariable("id") int id);
 }
