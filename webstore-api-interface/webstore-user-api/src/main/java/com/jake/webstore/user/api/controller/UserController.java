@@ -1,11 +1,11 @@
 package com.jake.webstore.user.api.controller;
 
-import com.jake.webstore.common.api.dto.CommonResult;
+import com.jake.webstore.domain.dto.CommonResult;
 import com.jake.webstore.user.api.dto.*;
 import org.springframework.web.bind.annotation.*;
 
 
-@RequestMapping("/user")
+@RequestMapping("/users")
 public interface UserController {
     @GetMapping()
     CommonResult<UserListDto> listUser();

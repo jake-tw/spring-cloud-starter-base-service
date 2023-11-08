@@ -15,7 +15,7 @@ subprojects {
     apply(plugin = "io.spring.dependency-management")
 
     dependencies {
-        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation(project(":webstore-cloud:webstore-cloud-base"))
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }

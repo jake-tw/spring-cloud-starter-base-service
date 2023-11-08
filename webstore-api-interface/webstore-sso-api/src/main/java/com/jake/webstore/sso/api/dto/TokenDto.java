@@ -1,7 +1,7 @@
 package com.jake.webstore.sso.api.dto;
 
-import com.jake.webstore.common.api.domain.Token;
-import com.jake.webstore.common.api.dto.BaseDto;
+import com.jake.webstore.domain.domain.Token;
+import com.jake.webstore.domain.dto.BaseDto;
 import lombok.Data;
 
 @Data

@@ -1,6 +1,6 @@
-package com.jake.webstore.common.api.dto;
+package com.jake.webstore.domain.dto;
 
-import com.jake.webstore.common.api.enums.ResultType;
+import com.jake.webstore.domain.enums.ResultType;
 import lombok.Getter;
 
 @Getter

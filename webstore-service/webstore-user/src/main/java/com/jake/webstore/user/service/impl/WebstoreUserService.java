@@ -1,7 +1,6 @@
 package com.jake.webstore.user.service.impl;
 
-import com.jake.webstore.common.api.domain.Token;
-import com.jake.webstore.common.api.domain.User;
+import com.jake.webstore.domain.domain.User;
 import com.jake.webstore.user.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -9,16 +8,6 @@ import java.util.List;
 
 @Service
 public class WebstoreUserService implements UserService {
-
-    @Override
-    public Token login(String username, String password) {
-        return null;
-    }
-
-    @Override
-    public String getSalt(String username) {
-        return null;
-    }
 
     @Override
     public List<User> listUser() {
