@@ -1,12 +1,8 @@
 package com.jake.webstore.sso.api.dto;
 
-import com.jake.webstore.domain.domain.Token;
-import com.jake.webstore.domain.dto.BaseDto;
-import lombok.Data;
+import com.jake.webstore.cloud.base.domain.Token;
+import lombok.Builder;
 
-@Data
-public class TokenDto implements BaseDto {
-    private int id;
-    private Token token;
-    private Token refreshToken;
+@Builder
+public record TokenDto(Long id, Token token, Token refreshToken) {
 }

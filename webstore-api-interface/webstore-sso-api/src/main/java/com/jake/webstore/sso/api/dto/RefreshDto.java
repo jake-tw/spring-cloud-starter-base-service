@@ -1,9 +1,7 @@
 package com.jake.webstore.sso.api.dto;
 
-import com.jake.webstore.domain.dto.BaseDto;
-import lombok.Data;
+import lombok.Builder;
 
-@Data
-public class RefreshDto implements BaseDto {
-    private String refreshToken;
+@Builder
+public record RefreshDto(String refreshToken) {
 }

@@ -1,9 +1,7 @@
 package com.jake.webstore.sso.api.dto;
 
-import com.jake.webstore.domain.dto.BaseDto;
-import lombok.Data;
+import lombok.Builder;
 
-@Data
-public class SaltDto implements BaseDto {
-    private String slat;
+@Builder
+public record SaltDto(String username, String slat) {
 }

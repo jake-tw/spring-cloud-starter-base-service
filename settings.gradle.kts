@@ -2,7 +2,6 @@ rootProject.name = "spring-cloud-webstore"
 
 // com.jake.webstore.common.{support for}
 include("webstore-common")
-include("webstore-common:webstore-domain")
 include("webstore-common:webstore-redis-utils")
 
 // com.jake.webstore.{service name}.api

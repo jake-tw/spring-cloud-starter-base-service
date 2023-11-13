@@ -15,7 +15,8 @@ subprojects {
     apply(plugin = "io.spring.dependency-management")
 
     dependencies {
-        implementation(project(":webstore-cloud:webstore-cloud-base"))
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+        runtimeOnly("com.mysql:mysql-connector-j")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }

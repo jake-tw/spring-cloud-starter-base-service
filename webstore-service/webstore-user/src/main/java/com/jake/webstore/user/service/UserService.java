@@ -1,6 +1,6 @@
 package com.jake.webstore.user.service;
 
-import com.jake.webstore.domain.domain.User;
+import com.jake.webstore.cloud.base.domain.User;
 
 import java.util.List;
 

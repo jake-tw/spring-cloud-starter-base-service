@@ -1,12 +1,10 @@
 package com.jake.webstore.user.api.dto;
 
-import com.jake.webstore.domain.domain.User;
-import com.jake.webstore.domain.dto.BaseDto;
-import lombok.Data;
+import com.jake.webstore.cloud.base.domain.User;
+import lombok.Builder;
 
 import java.util.List;
 
-@Data
-public class UserListDto implements BaseDto {
-    private List<User> userList;
+@Builder
+public record UserListDto(List<User> userList) {
 }

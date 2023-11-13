@@ -1,6 +1,6 @@
 package com.jake.webstore.user.api.controller;
 
-import com.jake.webstore.domain.dto.CommonResult;
+import com.jake.webstore.cloud.base.dto.CommonResult;
 import com.jake.webstore.user.api.dto.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +14,7 @@ public interface UserController {
     CommonResult<UserDto> getUser(@PathVariable("id") int id);
 
     @PutMapping("/{id}")
-    CommonResult<UserDto> updateUser(@PathVariable("id") int id, @RequestBody() UserDto dto);
+    CommonResult<UserDto> updateUser(@PathVariable("id") int id, @RequestBody UserDto dto);
 
     @PostMapping()
     CommonResult<UserDto> createUser(@RequestBody() UserDto dto);

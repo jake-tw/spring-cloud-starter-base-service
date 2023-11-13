@@ -1,6 +1,6 @@
-package com.jake.webstore.cloud.base;
+package com.jake.webstore.cloud.base.utils;
 
-import lombok.Data;
+import lombok.Builder;
 
 public class SubjectUtils {
     private final static ThreadLocal<Subject> subjectLocal = new ThreadLocal<>();
@@ -17,8 +17,7 @@ public class SubjectUtils {
         subjectLocal.remove();
     }
 
-    @Data
-    public static class Subject {
-        private int id;
+    @Builder
+    public record Subject(Long id) {
     }
 }
