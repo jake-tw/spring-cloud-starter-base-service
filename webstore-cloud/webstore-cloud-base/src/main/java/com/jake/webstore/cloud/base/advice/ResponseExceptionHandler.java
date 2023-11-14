@@ -1,6 +1,6 @@
-package com.jake.webstore.cloud.base.hanlder;
+package com.jake.webstore.cloud.base.advice;
 
-import com.jake.webstore.cloud.base.exception.BizException;
+import com.jake.webstore.cloud.base.exception.WebstoreException;
 import com.jake.webstore.cloud.base.dto.CommonResult;
 import com.jake.webstore.cloud.base.enums.ResultType;
 import lombok.extern.slf4j.Slf4j;
@@ -14,18 +14,19 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 @Slf4j
-public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler {
+public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler()
-    protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
-
+    protected ResponseEntity<Object> handleException(RuntimeException ex, WebRequest request) {
+        System.out.println("ResponseExceptionHandler");
         ResultType type;
-        if (ex instanceof BizException b) {
+        if (ex instanceof WebstoreException b) {
             type = b.getType();
         } else {
             type = ResultType.FAILED;
         }
 
-        logger.error("Catch exception", ex);
+//        TODO display error log
+//        logger.error("Catch exception", ex);
         return handleExceptionInternal(ex, CommonResult.failed(type), new HttpHeaders(), HttpStatus.OK, request);
     }
 }

@@ -2,7 +2,7 @@ package com.jake.webstore.cloud.base.utils;
 
 import lombok.Builder;
 
-public class SubjectUtils {
+public class SubjectUtil {
     private final static ThreadLocal<Subject> subjectLocal = new ThreadLocal<>();
 
     public static void set(Subject subject) {
@@ -18,6 +18,6 @@ public class SubjectUtils {
     }
 
     @Builder
-    public record Subject(Long id) {
+    public record Subject(String token, Long id) {
     }
 }

@@ -1,6 +1,5 @@
 package com.jake.webstore.sso.controller;
 
-import com.jake.webstore.cloud.base.utils.SubjectUtils;
 import com.jake.webstore.cloud.base.domain.Token;
 import com.jake.webstore.cloud.base.dto.CommonResult;
 import com.jake.webstore.cloud.base.enums.TokenType;

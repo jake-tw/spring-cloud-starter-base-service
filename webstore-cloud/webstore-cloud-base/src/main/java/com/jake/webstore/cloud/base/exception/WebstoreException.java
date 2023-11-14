@@ -5,10 +5,10 @@ import lombok.Getter;
 
 
 @Getter
-public class BizException extends RuntimeException {
+public class WebstoreException extends RuntimeException {
     private final ResultType type;
 
-    public BizException(ResultType type) {
+    public WebstoreException(ResultType type) {
         super(type.getMessage());
         this.type = type;
     }

@@ -3,11 +3,12 @@ package com.jake.webstore.sso.service.impl;
 import com.jake.webstore.cloud.base.domain.Token;
 import com.jake.webstore.cloud.base.enums.ResultType;
 import com.jake.webstore.cloud.base.enums.TokenType;
-import com.jake.webstore.cloud.base.exception.BizException;
+import com.jake.webstore.cloud.base.exception.WebstoreException;
 import com.jake.webstore.sso.entity.User;
 import com.jake.webstore.sso.repository.UserRepository;
 import com.jake.webstore.sso.service.SsoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -23,21 +24,24 @@ public class WebstoreSsoService implements SsoService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Token register(String username, String email, String password) {
         boolean isExists = userRepository.existsByUsername(username);
         if (isExists) {
-            throw new BizException(ResultType.USER_EXISTS);
+            throw new WebstoreException(ResultType.USER_EXISTS);
         }
 
         User user = userRepository.save(User.builder()
                 .username(username)
                 .email(email)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .salt(salts.get(username))
                 .build());
 
+        salts.remove(username);
         return createToken(TokenType.ACCESS, user.getId());
     }
 
@@ -45,7 +49,7 @@ public class WebstoreSsoService implements SsoService {
     public Token login(String username, String password) {
         User user = userRepository.findByUsernameAndPassword(username, password);
         if (user == null) {
-            throw new BizException(ResultType.USER_NOT_EXISTS);
+            throw new WebstoreException(ResultType.USER_NOT_EXISTS);
         }
 
         return createToken(TokenType.ACCESS, user.getId());
@@ -53,6 +57,7 @@ public class WebstoreSsoService implements SsoService {
 
     @Override
     public Token createToken(TokenType type, Long id) {
+        // TODO Use jwt token util
         return Token.builder()
                 .id(id)
                 .type(type)
@@ -65,12 +70,12 @@ public class WebstoreSsoService implements SsoService {
     @Override
     public String createSalt(String username) {
         if (StringUtils.hasText(salts.get(username))) {
-            throw new BizException(ResultType.USER_EXISTS);
+            throw new WebstoreException(ResultType.USER_EXISTS);
         }
 
         User user = userRepository.findByUsername(username);
         if (user != null) {
-            throw new BizException(ResultType.USER_EXISTS);
+            throw new WebstoreException(ResultType.USER_EXISTS);
         }
 
         String salt = UUID.randomUUID().toString();

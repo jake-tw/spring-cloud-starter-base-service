@@ -22,4 +22,6 @@ tasks {
 dependencies {
     apply(plugin = "java-library")
     api("org.springframework.boot:spring-boot-starter-web")
+    api("org.springframework.boot:spring-boot-starter-security")
+    api("io.jsonwebtoken:jjwt:0.12.3")
 }

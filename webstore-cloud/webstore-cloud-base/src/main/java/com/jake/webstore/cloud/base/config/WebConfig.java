@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new SubjectInterceptor())
-                .excludePathPatterns("/sso/**")
+                .excludePathPatterns("/sso/**", "auth/**")
                 .pathMatcher(new AntPathMatcher());
     }
 }
