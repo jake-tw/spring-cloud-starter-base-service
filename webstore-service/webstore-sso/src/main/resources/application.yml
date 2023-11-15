@@ -1,5 +1,13 @@
 spring:
+  application:
+    name: sso
   datasource:
     url: jdbc:mysql://localhost:3306/sso?createDatabaseIfNotExist=true
     username: root
     password: test1234
+
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security: TRACE

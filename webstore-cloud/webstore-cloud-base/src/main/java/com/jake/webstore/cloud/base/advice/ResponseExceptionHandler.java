@@ -22,7 +22,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         if (ex instanceof WebstoreException b) {
             type = b.getType();
         } else {
-            type = ResultType.FAILED;
+            type = ResultType.INTERNAL_SERVER_ERROR;
         }
 
 //        TODO display error log
