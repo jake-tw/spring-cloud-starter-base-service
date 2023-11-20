@@ -4,5 +4,5 @@ import com.jake.webstore.cloud.base.domain.Token;
 import lombok.Builder;
 
 @Builder
-public record TokenDto(Long id, Token token, Token refreshToken) {
+public record TokenDto(Token accessToken, Token refreshToken) {
 }

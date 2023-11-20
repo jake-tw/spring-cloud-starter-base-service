@@ -1,6 +1,5 @@
 package com.jake.webstore.sso.api.controller;
 
-
 import com.jake.webstore.sso.api.dto.LoginDto;
 import com.jake.webstore.sso.api.dto.RefreshDto;
 import com.jake.webstore.sso.api.dto.TokenDto;
@@ -22,6 +21,9 @@ public interface SsoController {
 
     @PostMapping("/salt/{username}")
     CommonResult<SaltDto> createSalt(@PathVariable("username") String username);
+
+    @DeleteMapping("/salt/{username}")
+    CommonResult<?> deleteSalt(@PathVariable("username") String username);
 
     @GetMapping("/salt/{username}")
     CommonResult<SaltDto> getSalt(@PathVariable("username") String username);

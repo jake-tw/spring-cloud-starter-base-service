@@ -10,7 +10,9 @@ import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
 import java.util.function.Function;
 
 public class JwtTokenUtil {
@@ -23,19 +25,27 @@ public class JwtTokenUtil {
         jwtParser = Jwts.parser().verifyWith(secretKey).build();
     }
 
-    public static String generateToken(TokenType type, User user) {
-        long expirationMillis = Instant.now().plusSeconds(90).getEpochSecond() * 1000;
+    public static String generateToken(TokenType type, String username) {
+        return generateToken(type, username, Collections.emptyMap());
+    }
+
+    public static String generateToken(TokenType type, String username, Map<String, String> additional) {
+        int timeout = type == TokenType.ACCESS ? ConstantUtil.Token.ACCESS_TOKEN_TIMEOUT_SECONDS : ConstantUtil.Token.REFRESH_TOKEN_TIMEOUT_SECONDS;
+        long expirationMillis = Instant.now().plusSeconds(timeout).getEpochSecond() * 1000;
 
         Claims claims = Jwts.claims()
-                .subject("username")
+                .subject(username)
                 .issuer("webstore.jake.com")
                 .issuedAt(new Date())
                 .expiration(new Date(expirationMillis))
+                .add("role", RoleType.ADMIN.name())
+                .add("type", type)
+                .add(additional)
                 .build();
-        claims.put("role", RoleType.ADMIN.name());
 
         return Jwts.builder().claims(claims).signWith(secretKey).compact();
     }
+
 
     public static boolean isTokenExpired(String token) {
         Date expiration = getExpirationDateFromToken(token);

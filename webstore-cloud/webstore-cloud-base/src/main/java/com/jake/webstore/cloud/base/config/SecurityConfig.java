@@ -44,7 +44,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandlingCustomizer -> exceptionHandlingCustomizer
+                        // handle token unauthenticated result
+                        // (have header but validation failed)
                         .accessDeniedHandler(accessDeniedHandler)
+                        // handle no authentication result
+                        // (no header and no permit)
                         .authenticationEntryPoint(authenticationEntryPoint))
                 // TODO Pre authorize exception handle
                 .addFilterBefore(jwtSecurityFilter, UsernamePasswordAuthenticationFilter.class)

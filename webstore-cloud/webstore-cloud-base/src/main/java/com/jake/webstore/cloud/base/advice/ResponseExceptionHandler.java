@@ -25,8 +25,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
             type = ResultType.INTERNAL_SERVER_ERROR;
         }
 
-//        TODO display error log
-//        logger.error("Catch exception", ex);
+        logger.error("Catch exception", ex);
         return handleExceptionInternal(ex, CommonResult.failed(type), new HttpHeaders(), HttpStatus.OK, request);
     }
 }
