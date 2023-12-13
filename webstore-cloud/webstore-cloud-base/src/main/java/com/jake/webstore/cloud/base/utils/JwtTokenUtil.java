@@ -1,6 +1,5 @@
 package com.jake.webstore.cloud.base.utils;
 
-import com.jake.webstore.cloud.base.domain.User;
 import com.jake.webstore.cloud.base.enums.RoleType;
 import com.jake.webstore.cloud.base.enums.TokenType;
 import io.jsonwebtoken.Claims;
@@ -10,9 +9,7 @@ import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
 import java.time.Instant;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 public class JwtTokenUtil {
@@ -20,16 +17,20 @@ public class JwtTokenUtil {
     private static final JwtParser jwtParser;
 
     static {
-        String key = "CanUseSpringComponentInjectValueInsteadThisKey";
+        String key = Base64.getEncoder().encodeToString("CanUseSpringComponentInjectAValueInsteadOfThisKey".getBytes());
         secretKey = Keys.hmacShaKeyFor(key.getBytes());
         jwtParser = Jwts.parser().verifyWith(secretKey).build();
     }
 
-    public static String generateToken(TokenType type, String username) {
-        return generateToken(type, username, Collections.emptyMap());
+    public static String generateAccessToken(String username) {
+        return generateToken(TokenType.ACCESS, username, Collections.emptyMap());
     }
 
-    public static String generateToken(TokenType type, String username, Map<String, String> additional) {
+    public static String generateRefreshToken(String username) {
+        return generateToken(TokenType.REFRESH, username, Collections.emptyMap());
+    }
+
+    private static String generateToken(TokenType type, String username, Map<String, String> additional) {
         int timeout = type == TokenType.ACCESS ? ConstantUtil.Token.ACCESS_TOKEN_TIMEOUT_SECONDS : ConstantUtil.Token.REFRESH_TOKEN_TIMEOUT_SECONDS;
         long expirationMillis = Instant.now().plusSeconds(timeout).getEpochSecond() * 1000;
 

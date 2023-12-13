@@ -8,13 +8,16 @@ public class ConstantUtil {
         public static final class Prefix {
             // user:password:salt:{username}
             public static final String USER_SALT = "user:salt:";
+            public static final String USER_REFRESH_TOKEN = "user:token:refresh:";
         }
+
+        // 5 min
+        public static final int SALT_RESERVE_SECONDS = 5 * 60;
     }
 
     public static class Header {
-        public static final String AUTHORIZATION_HEADER = "Authorization";
+        public static final String AUTHORIZATION = "Authorization";
         public static final String BEARER = "Bearer";
-
     }
 
     public static class Token {
@@ -26,6 +29,7 @@ public class ConstantUtil {
         public static final String TOKEN_PREFIX = "Jakestore";
     }
 
-    // 5 min
-    public static final int SALT_RESERVE_SECONDS = 5 * 60;
+    public static class Common {
+
+    }
 }
