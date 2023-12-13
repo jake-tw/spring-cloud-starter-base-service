@@ -37,6 +37,10 @@ public class WebstoreSsoService implements SsoService {
             throw new WebstoreException(ResultType.USER_EXISTS);
         }
 
+        if (!password.matches(ConstantUtil.Regex.HASHED_PASSWORD)) {
+            throw new WebstoreException(ResultType.USER_INVALID_PARAM);
+        }
+
         String salt = redisService.get(getUserSaltKey(username));
         boolean isTimeout = !StringUtils.hasText(salt);
         if (isTimeout) {
@@ -56,10 +60,16 @@ public class WebstoreSsoService implements SsoService {
 
     @Override
     public Token login(String username, String password) {
+        // Error messages must be obfuscated to avoid malicious use
+        if (!password.matches(ConstantUtil.Regex.HASHED_PASSWORD)) {
+            throw new WebstoreException(ResultType.USER_LOGIN_ERROR);
+        }
+
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            throw new WebstoreException(ResultType.USER_NOT_EXISTS);
+            throw new WebstoreException(ResultType.USER_LOGIN_ERROR);
         }
+
         boolean isValid = passwordEncoder.matches(password, user.getPassword());
         if (!isValid) {
             throw new WebstoreException(ResultType.USER_LOGIN_ERROR);

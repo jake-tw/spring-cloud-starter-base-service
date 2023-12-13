@@ -17,6 +17,7 @@ public enum ResultType {
     USER_EXISTS(10001, "message.user.exists"),
     USER_NOT_EXISTS(10002, "message.user.not.exists"),
     USER_LOGIN_ERROR(10003, "message.user.login.error"),
+    USER_INVALID_PARAM(10004, "message.user.invalid.param"),
     ;
 
     ResultType(int code, String message) {

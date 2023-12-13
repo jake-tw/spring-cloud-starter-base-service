@@ -29,6 +29,10 @@ public class ConstantUtil {
         public static final String TOKEN_PREFIX = "Jakestore";
     }
 
+    public static class Regex {
+        public static final String HASHED_PASSWORD = "^[A-Fa-f0-9]{64}$";
+    }
+
     public static class Common {
 
     }
