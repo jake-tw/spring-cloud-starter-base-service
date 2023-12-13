@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 public enum ResultType {
 
+    // TODO optimize error code
     SUCCESS(200, "success"),
     UNAUTHORIZED(401, "Unauthorized"),
     FORBIDDEN(403, "Forbidden"),

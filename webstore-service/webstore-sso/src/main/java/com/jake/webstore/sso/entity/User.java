@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.time.Instant;
 
 @Entity
 @Table(name = "user")
 @Data
+@Accessors(chain = true)
 public class User {
 
     @Id
@@ -30,9 +32,9 @@ public class User {
     @Column(name = "salt")
     private String salt;
 
-    @Column(name = "create_time")
+    @Column(name = "create_time", insertable = false, updatable = false)
     private Instant createTime;
 
-    @Column(name = "update_time")
+    @Column(name = "update_time", insertable = false, updatable = false)
     private Instant updateTime;
 }

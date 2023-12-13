@@ -17,6 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class WebstoreSsoController implements SsoController {
 
+// TODO 1. forgot password api
+//          a. generate a unique id for update password without login
+//          b. send password reset link with unique id to email
+//      2. update password with unique id
+//      3. normal update password api in sso? (check thread local? use refresh token?)
+//      4. hash refresh token and put it into redis and set TTL?
+//      (refresh token can proved itself and hash can check the current token?)
+//      5. refresh token only need user id and session id? access token need a role id?
+//      6. login by either username and email
+
     @Autowired
     private SsoService ssoService;
 

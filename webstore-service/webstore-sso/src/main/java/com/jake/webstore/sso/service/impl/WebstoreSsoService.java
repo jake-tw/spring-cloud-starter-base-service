@@ -10,6 +10,7 @@ import com.jake.webstore.cloud.base.utils.JwtTokenUtil;
 import com.jake.webstore.sso.entity.User;
 import com.jake.webstore.sso.repository.UserRepository;
 import com.jake.webstore.sso.service.SsoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class WebstoreSsoService implements SsoService {
 
     @Autowired
@@ -35,19 +37,20 @@ public class WebstoreSsoService implements SsoService {
             throw new WebstoreException(ResultType.USER_EXISTS);
         }
 
-        String salt = getUserSaltKey(username);
+        String salt = redisService.get(getUserSaltKey(username));
         boolean isTimeout = !StringUtils.hasText(salt);
         if (isTimeout) {
             throw new WebstoreException(ResultType.REQUEST_TIMEOUT);
         }
 
-        userRepository.save(new User() {{
-            setUsername(username);
-            setEmail(email);
-            setPassword(passwordEncoder.encode(password));
-            setSalt(salt);
-        }});
+        User user = new User()
+                .setUsername(username)
+                .setEmail(email)
+                .setPassword(passwordEncoder.encode(password))
+                .setSalt(salt);
 
+        userRepository.save(user);
+        log.info("[{}] New user registration, username: {}, email: {}", user.getId(), user.getUsername(), user.getEmail());
         return createToken(TokenType.ACCESS, username);
     }
 
@@ -61,12 +64,23 @@ public class WebstoreSsoService implements SsoService {
         if (!isValid) {
             throw new WebstoreException(ResultType.USER_LOGIN_ERROR);
         }
+        // TODO store refresh token and make sure the refresh token is unique
         return createToken(TokenType.ACCESS, username);
     }
 
     @Override
     public Token createToken(TokenType type, String username) {
-        String token = JwtTokenUtil.generateToken(type, username);
+        String token;
+        switch (type) {
+            case ACCESS -> token = JwtTokenUtil.generateAccessToken(username);
+            case REFRESH -> {
+                token = JwtTokenUtil.generateRefreshToken(username);
+                // TODO encrypt
+                redisService.set(ConstantUtil.Redis.Prefix.USER_REFRESH_TOKEN + username, token);
+            }
+            default -> throw new WebstoreException(ResultType.INTERNAL_SERVER_ERROR);
+        }
+
         Date date = JwtTokenUtil.getExpirationDateFromToken(token);
         return Token.builder()
                 .username(username)
@@ -83,13 +97,13 @@ public class WebstoreSsoService implements SsoService {
             throw new WebstoreException(ResultType.USER_EXISTS);
         }
 
-        User user = userRepository.findByUsername(username);
-        if (user != null) {
+        boolean isExists = userRepository.existsByUsername(username);
+        if (isExists) {
             throw new WebstoreException(ResultType.USER_EXISTS);
         }
 
         String salt = UUID.randomUUID().toString();
-        redisService.set(getUserSaltKey(username), salt, ConstantUtil.SALT_RESERVE_SECONDS);
+        redisService.set(getUserSaltKey(username), salt, ConstantUtil.Redis.SALT_RESERVE_SECONDS);
         return salt;
     }
 
@@ -128,6 +142,6 @@ public class WebstoreSsoService implements SsoService {
     }
 
     private String getUserSaltKey(String username) {
-        return redisService.get(ConstantUtil.Redis.Prefix.USER_SALT + username);
+        return ConstantUtil.Redis.Prefix.USER_SALT + username;
     }
 }
