@@ -18,4 +18,8 @@ public interface SsoService {
     String getSalt(String username);
 
     Token refresh(String refreshToken);
+
+    void resetPassword(String email);
+
+    void changePassword(String token, String oldPassword, String newPassword);
 }

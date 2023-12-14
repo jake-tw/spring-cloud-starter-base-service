@@ -25,8 +25,6 @@ public class RedisUtils {
     }
 
     public String get(String key) {
-        Long a = get("a", Long.class);
-
         return redisTemplate.opsForValue().get(key);
     }
 

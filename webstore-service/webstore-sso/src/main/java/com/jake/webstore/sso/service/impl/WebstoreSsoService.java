@@ -1,12 +1,12 @@
 package com.jake.webstore.sso.service.impl;
 
-import com.jake.webstore.cloud.base.component.RedisService;
 import com.jake.webstore.cloud.base.domain.Token;
 import com.jake.webstore.cloud.base.enums.ResultType;
 import com.jake.webstore.cloud.base.enums.TokenType;
 import com.jake.webstore.cloud.base.exception.WebstoreException;
 import com.jake.webstore.cloud.base.utils.ConstantUtil;
 import com.jake.webstore.cloud.base.utils.JwtTokenUtil;
+import com.jake.webstore.common.redis.utils.RedisUtils;
 import com.jake.webstore.sso.entity.User;
 import com.jake.webstore.sso.repository.UserRepository;
 import com.jake.webstore.sso.service.SsoService;
@@ -28,7 +28,7 @@ public class WebstoreSsoService implements SsoService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private RedisService redisService;
+    private RedisUtils redisUtils;
 
     @Override
     public Token register(String username, String email, String password) {
@@ -41,7 +41,7 @@ public class WebstoreSsoService implements SsoService {
             throw new WebstoreException(ResultType.USER_INVALID_PARAM);
         }
 
-        String salt = redisService.get(getUserSaltKey(username));
+        String salt = redisUtils.get(getUserSaltKey(username));
         boolean isTimeout = !StringUtils.hasText(salt);
         if (isTimeout) {
             throw new WebstoreException(ResultType.REQUEST_TIMEOUT);
@@ -86,7 +86,7 @@ public class WebstoreSsoService implements SsoService {
             case REFRESH -> {
                 token = JwtTokenUtil.generateRefreshToken(username);
                 // TODO encrypt
-                redisService.set(ConstantUtil.Redis.Prefix.USER_REFRESH_TOKEN + username, token);
+                redisUtils.set(ConstantUtil.Redis.Prefix.USER_REFRESH_TOKEN + username, token);
             }
             default -> throw new WebstoreException(ResultType.INTERNAL_SERVER_ERROR);
         }
@@ -103,7 +103,7 @@ public class WebstoreSsoService implements SsoService {
 
     @Override
     public String createSalt(String username) {
-        if (StringUtils.hasText(redisService.get(getUserSaltKey(username)))) {
+        if (StringUtils.hasText(redisUtils.get(getUserSaltKey(username)))) {
             throw new WebstoreException(ResultType.USER_EXISTS);
         }
 
@@ -113,7 +113,7 @@ public class WebstoreSsoService implements SsoService {
         }
 
         String salt = UUID.randomUUID().toString();
-        redisService.set(getUserSaltKey(username), salt, ConstantUtil.Redis.SALT_RESERVE_SECONDS);
+        redisUtils.set(getUserSaltKey(username), salt, ConstantUtil.Redis.SALT_RESERVE_SECONDS);
         return salt;
     }
 
@@ -124,7 +124,7 @@ public class WebstoreSsoService implements SsoService {
             throw new WebstoreException(ResultType.USER_EXISTS);
         }
 
-        boolean isDeleted = redisService.delete(getUserSaltKey(username));
+        boolean isDeleted = redisUtils.delete(getUserSaltKey(username));
         if (!isDeleted) {
             throw new WebstoreException(ResultType.NOT_FOUND);
         }
@@ -132,7 +132,7 @@ public class WebstoreSsoService implements SsoService {
 
     @Override
     public String getSalt(String username) {
-        String salt = redisService.get(getUserSaltKey(username));
+        String salt = redisUtils.get(getUserSaltKey(username));
         if (StringUtils.hasText(salt)) {
             return salt;
         }
@@ -140,7 +140,7 @@ public class WebstoreSsoService implements SsoService {
         User user = userRepository.findByUsername(username);
         if (user != null) {
             salt = user.getSalt();
-            redisService.set(getUserSaltKey(username), salt);
+            redisUtils.set(getUserSaltKey(username), salt);
         }
         return salt;
     }
@@ -149,6 +149,16 @@ public class WebstoreSsoService implements SsoService {
     public Token refresh(String refreshToken) {
         // TODO  validation
         return null;
+    }
+
+    @Override
+    public void resetPassword(String email) {
+
+    }
+
+    @Override
+    public void changePassword(String token, String oldPassword, String newPassword) {
+
     }
 
     private String getUserSaltKey(String username) {
